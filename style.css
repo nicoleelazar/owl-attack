@@ -1,0 +1,27 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+#game-area {
+    background: pink;
+    margin: 0 auto;
+    display: grid;
+    padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+    height: 100vh;
+    max-height: 500px;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+}
+
+.owl-box {
+    background: green;
+    position: relative;
+}
+
+/* to do: 2 rows only, more space between, add bush-box on top */
