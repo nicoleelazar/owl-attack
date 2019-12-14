@@ -16,12 +16,35 @@
     max-height: 500px;
     grid-template-rows: auto;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 5px;
+    grid-gap: 20px;
+}
+
+.pic-contain {
+    position: relative;
+    background-color: black;
 }
 
 .owl-box {
-    background: green;
-    position: relative;
+    background-image: url('/assets/owl.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    /* bottom: 16%; */
+    top: 0;
+    left: 20%;
+    height: 60%;
+    width: 60%;
 }
 
-/* to do: 2 rows only, more space between, add bush-box on top */
+.bush-box {
+    background-image: url('/assets/bush.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+
+}
