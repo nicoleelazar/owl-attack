@@ -1,13 +1,29 @@
 const gameArea = document.getElementById('game-area');
+const scoreBoard = document.getElementById('scoreboard');
+
+// variables ------------
 let picContain;
 let owl;
-let bush;
 let owls = [];
+let bush;
+let clickArea;
+let clickAreas = [];
 let lastSelection;
+let score = 0;
+//------------------------
 
-
-// Initialize function
 function initialize() {
+    createLayout();
+
+    moveOwls();
+
+    clickListener();
+}
+initialize();
+
+
+// layout creation
+function createLayout() {
     for (let i = 0; i < 6; i++) {
         picContain = document.createElement('div');
         gameArea.appendChild(picContain);
@@ -23,27 +39,34 @@ function initialize() {
         bush = document.createElement('div');
         picContain.appendChild(bush);
         bush.classList.add('bush-box');
+
+        clickArea = document.createElement('div');
+        picContain.append(clickArea);
+        clickArea.classList.add('invisible-box');
+
+        // put click areas in array
+        clickAreas.push(clickArea);
     }
 
-    MoveOwls();
+    //reset score to zero
+    scoreBoard.innerHTML = score;
 
 }
-initialize();
 
 
-//function for random integer selection
+
+//random integer selection
 function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
 
-//function for random array index selection
+//random array index selection
 function randomIndex(arr) {
     let randomArrIndex = Math.floor(Math.random() * arr.length);
 
     //test - if the last selected index is the same as the current one, run function again
     if (arr[randomArrIndex] === lastSelection) {
-        console.log('same');
         return randomIndex(arr);
     }
 
@@ -54,29 +77,49 @@ function randomIndex(arr) {
 }
 
 
-//function to move the owls
-function MoveOwls() {
+
+//move the owls
+function moveOwls() {
     let randomTime = randomInteger(900, 1200);
     let randomOwl = randomIndex(owls);
-    console.log(randomTime, randomOwl)
 
     //add owl animation
     owls[randomOwl].classList.add('move-owl');
 
-    //remove owl animation
+    //remove owl animation and repeat 
     setTimeout(() => {
         owls[randomOwl].classList.remove('move-owl');
-        // MoveOwls();
+
+        moveOwls();
+
+        clickListener();
+
     }, randomTime);
+}
+
+
+//score board update ---------------
+
+function clickListener() {
+    for (let clickArea of clickAreas) {
+        clickArea.addEventListener('click', updateScore);
+    }
+}
+
+function updateScore() {
+    score++;
+    scoreBoard.innerHTML = score;
+
+    // only allow one click per owl each time
+    for (let clickArea of clickAreas) {
+        clickArea.removeEventListener('click', updateScore);
+    }
+
 }
 
 
 
 
 
-
-
-
-
-// if its clicked, increase score board point by 1 
 // if clicked owl sound plays
+// if score is 10, owls speed up
