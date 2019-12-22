@@ -6,23 +6,63 @@
     box-sizing: border-box;
 }
 
+:root {
+    --color-ash: rgb(41, 41, 58);
+}
+
+body {
+    font-family: 'Lakki Reddy', cursive;
+    /* to hide modal scroll bar */
+    overflow: hidden;
+}
 
 .container {
     width: 100%;
     height: 100vh;
     padding: 5% 10% 0 10%;
-    background-color: darkblue;
+    background-color: var(--color-ash);
 }
 
 .title {
     color: white;
     font-size: 40px;
     padding-bottom: 20px;
-    font-family: 'Lakki Reddy', cursive;
+    position: relative;
 }
 
+.game-message {
+    right: 0;
+    color: rgba(255, 255, 255, 0);
+    position: absolute;
+}
+
+.fade-message {
+    animation-name: fadeInOut;
+    animation-duration: 2s;
+
+}
+
+@keyframes fadeInOut {
+    0% {
+        color: rgba(255, 255, 255, 0);
+    }
+
+    50% {
+        color: rgba(255, 255, 255, 1);
+    }
+
+    70% {
+        color: rgba(255, 255, 255, 1);
+    }
+
+    100% {
+        color: rgba(255, 255, 255, 0);
+    }
+}
+
+
 #game-area {
-    background: pink;
+    /* background: pink; */
     margin: 0 auto;
     display: grid;
     padding: 15px;
@@ -35,7 +75,7 @@
 
 .pic-contain {
     position: relative;
-    background-color: black;
+    /* background-color: black; */
     width: 200px;
     height: 170px;
     align-self: center;
@@ -87,32 +127,10 @@
 
 
 
-
-/* animation-duration must match 'min' math random integer selection in JS */
 .move-owl {
-    /* animation-name: moveOwl;
-    animation-duration: 0.9s; */
     transform: translateY(-60%);
 }
 
-
-/* @keyframes moveOwl {
-    0% {
-        transform: translateY(0);
-    }
-
-    30% {
-        transform: translateY(-60%);
-    }
-
-    80% {
-        transform: translateY(-60%);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-} */
 
 /* display the click area when corresponding owl is active */
 .move-owl~.invisible-box {
@@ -120,8 +138,72 @@
 }
 
 
-/* media queries */
+/* modals -----------------------------------*/
 
+.modal {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 20;
+    background-color: rgb(139, 169, 224);
+
+}
+
+.start-message-contain {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin: 5% auto;
+    color: white;
+    text-align: center;
+}
+
+.start-game,
+.win-game {
+    display: none;
+    position: absolute;
+    width: 100%;
+    border: solid rgb(81, 127, 212) 10px;
+    padding: 20px;
+}
+
+.button {
+    border: 0;
+    background-color: rgb(81, 127, 212);
+    padding: 10px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    width: 250px;
+    font-family: inherit;
+    margin-top: 20px;
+    color: white;
+    transition: 0.3s ease;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: rgb(42, 111, 240);
+}
+
+.modal-title {
+    font-size: 35px;
+    line-height: 40px;
+}
+
+.modal-text,
+.modal-time {
+    font-size: 20px;
+    line-height: 25px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+
+}
+
+
+
+/* media queries -------------------------*/
 @media only screen and (max-width: 900px) {
     .pic-contain {
         width: 170px;
@@ -157,6 +239,15 @@
     .invisible-box {
         width: 42px;
         height: 38px;
+    }
+
+    .start-message-contain {
+        max-width: 100%;
+    }
+
+    .start-game,
+    .win-game {
+        border: none;
     }
 }
 

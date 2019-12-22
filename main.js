@@ -1,29 +1,65 @@
 const gameArea = document.getElementById('game-area');
 const scoreBoard = document.getElementById('scoreboard');
+const audioDuck = document.getElementById('audio-duck');
+const audioPing = document.getElementById('audio-ping');
+const gameMessage = document.querySelector('.game-message');
+const buttons = document.querySelectorAll('.button');
+const modal = document.querySelector('.modal');
+const startScreen = document.querySelector('.start-game');
+const winScreen = document.querySelector('.win-game');
+
 
 // variables ------------
-let picContain;
-let owl;
+
 let owls = [];
-let bush;
-let clickArea;
+let randomOwl;
+
+
 let clickAreas = [];
 let lastSelection;
-let score = 0;
+let score;
 //------------------------
 
 function initialize() {
+    startScreenListener();
+
     createLayout();
 
-    moveOwls();
-
-    clickListener();
+    owlClickListener();
 }
 initialize();
+
+function startScreenListener() {
+    startScreen.style.display = 'block';
+
+    for (let button of buttons) {
+        button.addEventListener('click', startGame)
+    }
+}
+
+function startGame() {
+    modal.style.display = 'none'
+    startScreen.style.display = 'none';
+    winScreen.style.display = 'none';
+
+    //reset
+    score = 38;
+    scoreBoard.innerHTML = score;
+    gameMessage.innerHTML = 'Beginner Mode';
+    gameMessage.classList.add('fade-message');
+    removeMessage();
+
+    moveOwls();
+}
 
 
 // layout creation
 function createLayout() {
+    let picContain;
+    let owl;
+    let bush;
+    let clickArea;
+
     for (let i = 0; i < 6; i++) {
         picContain = document.createElement('div');
         gameArea.appendChild(picContain);
@@ -33,7 +69,6 @@ function createLayout() {
         picContain.appendChild(owl);
         owl.classList.add('owl-box');
 
-        // put owls in array
         owls.push(owl);
 
         bush = document.createElement('div');
@@ -44,15 +79,10 @@ function createLayout() {
         picContain.append(clickArea);
         clickArea.classList.add('invisible-box');
 
-        // put click areas in array
         clickAreas.push(clickArea);
     }
 
-    //reset score to zero
-    scoreBoard.innerHTML = score;
-
 }
-
 
 
 //random integer selection
@@ -70,29 +100,40 @@ function randomIndex(arr) {
         return randomIndex(arr);
     }
 
-    //set the last selected index to the current one
     lastSelection = arr[randomArrIndex];
 
     return randomArrIndex;
 }
 
 
-
-//move the owls
+//game loop
 function moveOwls() {
     let randomTime = randomInteger(900, 1200);
-    let randomOwl = randomIndex(owls);
+    randomOwl = randomIndex(owls);
 
-    //add owl animation
     owls[randomOwl].classList.add('move-owl');
 
-    //remove owl animation and repeat 
+    //speed up owls
+    if (score >= 10 && score < 20) {
+        randomTime = randomInteger(800, 1100);
+    } else if (score >= 20 && score < 30) {
+        randomTime = randomInteger(600, 1000);
+    } else if (score >= 30) {
+        randomTime = randomInteger(500, 900);
+    }
+
     setTimeout(() => {
         owls[randomOwl].classList.remove('move-owl');
 
-        moveOwls();
+        //end game at 40 points
+        if (score < 40) {
+            moveOwls();
+        } else {
+            modal.style.display = 'block';
+            winScreen.style.display = 'block';
+            return;
 
-        clickListener();
+        }
 
     }, randomTime);
 }
@@ -100,7 +141,7 @@ function moveOwls() {
 
 //score board update ---------------
 
-function clickListener() {
+function owlClickListener() {
     for (let clickArea of clickAreas) {
         clickArea.addEventListener('click', updateScore);
     }
@@ -110,16 +151,41 @@ function updateScore() {
     score++;
     scoreBoard.innerHTML = score;
 
-    // only allow one click per owl each time
-    for (let clickArea of clickAreas) {
-        clickArea.removeEventListener('click', updateScore);
+    audioDuck.play();
+
+    if (score % 10 == 0) {
+        audioPing.play();
     }
 
+    updateMessage();
+
+    owls[randomOwl].classList.remove('move-owl');
+}
+
+function updateMessage() {
+    if (score === 10) {
+        gameMessage.innerHTML = 'Intermediate Mode';
+        gameMessage.classList.add('fade-message');
+        removeMessage();
+    } else if (score === 20) {
+        gameMessage.innerHTML = 'Advanced Mode';
+        gameMessage.classList.add('fade-message');
+        removeMessage();
+    } else if (score === 30) {
+        gameMessage.innerHTML = 'BEAST Mode!!';
+        gameMessage.classList.add('fade-message');
+        removeMessage();
+    }
+}
+
+function removeMessage() {
+    setTimeout(() => {
+        gameMessage.innerHTML = '';
+        gameMessage.classList.remove('fade-message');
+    }, 3000);
 }
 
 
 
 
-
-// if clicked owl sound plays
-// if score is 10, owls speed up
+// create upward timer

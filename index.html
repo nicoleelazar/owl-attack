@@ -14,9 +14,38 @@
     <div class="container">
         <div class="title">
             <span class="heading">Owl Attack Score: </span><span id="scoreboard"></span>
+            <span class="game-message"></span>
         </div>
         <div id="game-area"></div>
     </div>
+
+    <div class="modal">
+        <div class="start-message-contain">
+            <div class="start-game">
+                <h1 class="modal-title">Welcome to Owl Attack</h1>
+                <div class="modal-text">Work your way through four levels by scoring a point for each owl you click.
+                    Good luck !</div>
+                <button class="button">Start Game</button>
+            </div>
+            <div class="win-game">
+                <h1 class="modal-title">You, are the Champion!! My friend.</h1>
+                <div class="modal-text">You have triumphed over the Owls with the time of :</div>
+                <div class="modal-time">
+                    <span id="minutes"> mins</span>
+                    <span id="seconds"> secs.</span>
+                </div>
+                <button class="button">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio-duck">
+        <source src="/assets/duck_quack.wav" type="audio/wav">
+    </audio>
+
+    <audio id="audio-ping">
+        <source src="/assets/ping.wav" type="audio/wav">
+    </audio>
 </body>
 
 <script src="main.js"></script>
