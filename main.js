@@ -7,17 +7,22 @@ const buttons = document.querySelectorAll('.button');
 const modal = document.querySelector('.modal');
 const startScreen = document.querySelector('.start-game');
 const winScreen = document.querySelector('.win-game');
+const minutesDiv = document.querySelector('.minutes');
+const secondsDiv = document.querySelector('.seconds');
+const clock = document.querySelector('.clock');
 
 
 // variables ------------
 
 let owls = [];
 let randomOwl;
-
-
 let clickAreas = [];
 let lastSelection;
 let score;
+let seconds;
+let minutes;
+let gameTimer;
+
 //------------------------
 
 function initialize() {
@@ -29,6 +34,7 @@ function initialize() {
 }
 initialize();
 
+// start and end message screen listeners 
 function startScreenListener() {
     startScreen.style.display = 'block';
 
@@ -43,8 +49,12 @@ function startGame() {
     winScreen.style.display = 'none';
 
     //reset
-    score = 38;
-    scoreBoard.innerHTML = score;
+    score = 0;
+
+    seconds = 0;
+    minutes = 0;
+
+
     gameMessage.innerHTML = 'Beginner Mode';
     gameMessage.classList.add('fade-message');
     removeMessage();
@@ -164,14 +174,25 @@ function updateScore() {
 
 function updateMessage() {
     if (score === 10) {
+        // hide the game timer
+        clock.style.display = 'none';
+
         gameMessage.innerHTML = 'Intermediate Mode';
         gameMessage.classList.add('fade-message');
         removeMessage();
+
     } else if (score === 20) {
+        // hide the game timer
+        clock.style.display = 'none';
+
         gameMessage.innerHTML = 'Advanced Mode';
         gameMessage.classList.add('fade-message');
         removeMessage();
+
     } else if (score === 30) {
+        // hide the game timer
+        clock.style.display = 'none';
+
         gameMessage.innerHTML = 'BEAST Mode!!';
         gameMessage.classList.add('fade-message');
         removeMessage();
@@ -182,10 +203,37 @@ function removeMessage() {
     setTimeout(() => {
         gameMessage.innerHTML = '';
         gameMessage.classList.remove('fade-message');
+
+        // show the game timer
+        clock.style.display = 'block';
+
     }, 3000);
 }
 
 
+// game timer ----------------------
+gameTimer = setInterval(myTimer, 1000);
+
+function myTimer() {
+    seconds++;
+    secondsDiv.innerHTML = seconds;
+
+    if (seconds >= 60) {
+        seconds = 0;
+
+        minutes++;
+        minutesDiv.innerHTML = minutes;
+    }
+
+    if (seconds < 10) {
+        secondsDiv.innerHTML = `0${seconds}`;
+    }
+
+    if (minutes < 10) {
+        minutesDiv.innerHTML = `0${minutes}`;
+    }
+
+}
 
 
-// create upward timer
+// display game time in win screen msg. (change to query selector all)
