@@ -2,13 +2,14 @@ const gameArea = document.getElementById('game-area');
 const scoreBoard = document.getElementById('scoreboard');
 const audioDuck = document.getElementById('audio-duck');
 const audioPing = document.getElementById('audio-ping');
+const audioTada = document.getElementById('audio-tada');
 const gameMessage = document.querySelector('.game-message');
 const buttons = document.querySelectorAll('.button');
 const modal = document.querySelector('.modal');
 const startScreen = document.querySelector('.start-game');
 const winScreen = document.querySelector('.win-game');
-const minutesDiv = document.querySelector('.minutes');
-const secondsDiv = document.querySelector('.seconds');
+const minutesDivs = document.querySelectorAll('.minutes');
+const secondsDivs = document.querySelectorAll('.seconds');
 const clock = document.querySelector('.clock');
 
 
@@ -25,6 +26,7 @@ let gameTimer;
 
 //------------------------
 
+
 function initialize() {
     startScreenListener();
 
@@ -33,6 +35,8 @@ function initialize() {
     owlClickListener();
 }
 initialize();
+
+
 
 // start and end message screen listeners 
 function startScreenListener() {
@@ -43,17 +47,26 @@ function startScreenListener() {
     }
 }
 
+
+//reset scoreboard, styles, timer, start owls moving
 function startGame() {
     modal.style.display = 'none'
     startScreen.style.display = 'none';
     winScreen.style.display = 'none';
 
-    //reset
-    score = 0;
+    score = 39;
+    scoreBoard.innerHTML = score;
+    clock.style.display = 'none';
 
     seconds = 0;
+    for (let secondsDiv of secondsDivs) {
+        secondsDiv.innerHTML = seconds;
+    }
     minutes = 0;
-
+    for (let minutesDiv of minutesDivs) {
+        minutesDiv.innerHTML = minutes;
+    }
+    gameTimer = setInterval(myTimer, 1000);
 
     gameMessage.innerHTML = 'Beginner Mode';
     gameMessage.classList.add('fade-message');
@@ -61,6 +74,7 @@ function startGame() {
 
     moveOwls();
 }
+
 
 
 // layout creation
@@ -138,19 +152,19 @@ function moveOwls() {
         //end game at 40 points
         if (score < 40) {
             moveOwls();
+
         } else {
+            clearInterval(gameTimer);
             modal.style.display = 'block';
             winScreen.style.display = 'block';
             return;
-
         }
 
     }, randomTime);
 }
 
 
-//score board update ---------------
-
+//scoreboard & message update ---------------
 function owlClickListener() {
     for (let clickArea of clickAreas) {
         clickArea.addEventListener('click', updateScore);
@@ -163,13 +177,19 @@ function updateScore() {
 
     audioDuck.play();
 
-    if (score % 10 == 0) {
+    if (score % 10 == 0 && score < 40) {
         audioPing.play();
+    } else if (score == 40) {
+        setTimeout(() => {
+            audioTada.play();
+        }, 500);
     }
 
     updateMessage();
 
     owls[randomOwl].classList.remove('move-owl');
+    audioDuck.currentTime = 0;
+
 }
 
 function updateMessage() {
@@ -211,29 +231,29 @@ function removeMessage() {
 }
 
 
-// game timer ----------------------
-gameTimer = setInterval(myTimer, 1000);
 
+// game timer ---------------------------------
 function myTimer() {
     seconds++;
-    secondsDiv.innerHTML = seconds;
+    for (let secondsDiv of secondsDivs) {
+        secondsDiv.innerHTML = seconds;
+
+        if (seconds < 10) {
+            secondsDiv.innerHTML = `0${seconds}`;
+        }
+    }
+
+    for (let minutesDiv of minutesDivs) {
+        minutesDiv.innerHTML = minutes;
+
+        if (minutes < 10) {
+            minutesDiv.innerHTML = `0${minutes}`;
+        }
+    }
 
     if (seconds >= 60) {
         seconds = 0;
 
         minutes++;
-        minutesDiv.innerHTML = minutes;
     }
-
-    if (seconds < 10) {
-        secondsDiv.innerHTML = `0${seconds}`;
-    }
-
-    if (minutes < 10) {
-        minutesDiv.innerHTML = `0${minutes}`;
-    }
-
 }
-
-
-// display game time in win screen msg. (change to query selector all)

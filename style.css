@@ -73,7 +73,6 @@ body {
 
 
 #game-area {
-    /* background: pink; */
     margin: 0 auto;
     display: grid;
     padding: 15px;
@@ -86,7 +85,6 @@ body {
 
 .pic-contain {
     position: relative;
-    /* background-color: black; */
     width: 200px;
     height: 170px;
     align-self: center;
@@ -105,10 +103,7 @@ body {
     left: 20%;
     height: 60%;
     width: 60%;
-    transition: 0.17s ease;
-    /* z-index: 10; */
-    /* transform: translateY(-60%); */
-
+    transition: 0.13s ease;
 }
 
 
@@ -132,7 +127,6 @@ body {
     position: absolute;
     left: 35.5%;
     top: -2%;
-    /* background-color: darkcyan; */
     z-index: 15;
 }
 
@@ -205,13 +199,18 @@ body {
 
 .modal-text,
 .modal-time {
-    font-size: 20px;
     line-height: 25px;
     margin-top: 10px;
     letter-spacing: 1px;
-
 }
 
+.modal-text {
+    font-size: 20px;
+}
+
+.modal-time {
+    font-size: 26px;
+}
 
 
 /* media queries -------------------------*/
