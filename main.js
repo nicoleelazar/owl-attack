@@ -54,7 +54,7 @@ function startGame() {
     startScreen.style.display = 'none';
     winScreen.style.display = 'none';
 
-    score = 39;
+    score = 0;
     scoreBoard.innerHTML = score;
     clock.style.display = 'none';
 
