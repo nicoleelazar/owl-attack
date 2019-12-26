@@ -94,7 +94,7 @@ body {
 
 
 .owl-box {
-    background-image: url('./assets/owl.png');
+    background-image: url('/assets/owl.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -109,7 +109,7 @@ body {
 
 .bush-box {
 
-    background-image: url('./assets/bush.png');
+    background-image: url('/assets/bush.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
