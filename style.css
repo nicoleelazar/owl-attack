@@ -107,6 +107,8 @@ body {
 }
 
 
+
+
 .bush-box {
 
     background-image: url('/assets/bush.png');
@@ -122,10 +124,10 @@ body {
 
 .invisible-box {
     display: none;
-    width: 59px;
-    height: 52px;
+    width: 62px;
+    height: 56px;
     position: absolute;
-    left: 35.5%;
+    left: 35%;
     top: -2%;
     z-index: 15;
 }
@@ -222,8 +224,9 @@ body {
     }
 
     .invisible-box {
-        width: 52px;
-        height: 48px;
+        width: 56px;
+        height: 54px;
+        left: 34%;
     }
 }
 
@@ -247,8 +250,8 @@ body {
     }
 
     .invisible-box {
-        width: 42px;
-        height: 38px;
+        width: 48px;
+        height: 48px;
     }
 
     .start-message-contain {
